@@ -253,13 +253,24 @@ void DisplayBuffer::filled_circle(int center_x, int center_y, int radius, Color 
 }
 
 void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align, const char *text) {
+  this->print(x, y, font, color, align, text, 0, 0x7FFFFFFF);
+}
+
+void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align, const char *text, int x_offset, const int draw_width) {
   int x_start, y_start;
   int width, height;
   this->get_text_bounds(x, y, text, font, align, &x_start, &y_start, &width, &height);
 
   int i = 0;
   int x_at = x_start;
-  while (text[i] != '\0') {
+  int x_end;
+  if (draw_width == 0x7FFFFFFF) {
+    x_end = x_start + width;
+  } else {
+    x_end = x_start + draw_width;
+  }
+  x_offset += x_at;
+  while (text[i] != '\0' && x_at <= x_end) {
     int match_length;
     int glyph_n = font->match_next_glyph(text + i, &match_length);
     if (glyph_n < 0) {
@@ -268,8 +279,12 @@ void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align
       if (!font->get_glyphs().empty()) {
         uint8_t glyph_width = font->get_glyphs()[0].glyph_data_->width;
         for (int glyph_x = 0; glyph_x < glyph_width; glyph_x++) {
-          for (int glyph_y = 0; glyph_y < height; glyph_y++)
-            this->draw_pixel_at(glyph_x + x_at, glyph_y + y_start, color);
+          for (int glyph_y = 0; glyph_y < height; glyph_y++) {
+            const int pixel_x = glyph_x + x_at;
+            if (pixel_x >= x_offset && pixel_x <= x_end) {
+              this->draw_pixel_at(glyph_x + x_at, glyph_y + y_start, color);
+            }
+          }
         }
         x_at += glyph_width;
       }
@@ -285,7 +300,10 @@ void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align
     for (int glyph_x = scan_x1; glyph_x < scan_x1 + scan_width; glyph_x++) {
       for (int glyph_y = scan_y1; glyph_y < scan_y1 + scan_height; glyph_y++) {
         if (glyph.get_pixel(glyph_x, glyph_y)) {
-          this->draw_pixel_at(glyph_x + x_at, glyph_y + y_start, color);
+          const int pixel_x = glyph_x + x_at;
+          if (pixel_x >= x_offset && pixel_x <= x_end) {
+            this->draw_pixel_at(glyph_x + x_at, glyph_y + y_start, color);
+          }
         }
       }
     }

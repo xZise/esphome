@@ -178,6 +178,8 @@ class DisplayBuffer {
   /// Fill a circle centered around [center_x,center_y] with the radius radius with the given color.
   void filled_circle(int center_x, int center_y, int radius, Color color = COLOR_ON);
 
+  void print(int x, int y, Font *font, Color color, TextAlign align, const char *text, int x_offset, const int draw_width);
+
   /** Print `text` with the anchor point at [x,y] with `font`.
    *
    * @param x The x coordinate of the text alignment anchor point.
