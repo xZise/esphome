@@ -264,12 +264,12 @@ void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align
   int i = 0;
   int x_at = x_start;
   int x_end;
-  if (draw_width == 0x7FFFFFFF) {
-    x_end = x_start + width;
-  } else {
-    x_end = x_start + draw_width;
-  }
   x_offset += x_at;
+  if (draw_width == 0x7FFFFFFF) {
+    x_end = x_offset + width;
+  } else {
+    x_end = x_offset + draw_width;
+  }
   while (text[i] != '\0' && x_at <= x_end) {
     int match_length;
     int glyph_n = font->match_next_glyph(text + i, &match_length);
