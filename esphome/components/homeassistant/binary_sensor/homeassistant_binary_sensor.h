@@ -13,6 +13,7 @@ class HomeassistantBinarySensor : public binary_sensor::BinarySensor, public Com
   void setup() override;
   void dump_config() override;
   float get_setup_priority() const override;
+  const std::string &get_entity_id() const { return entity_id_; };
 
  protected:
   std::string entity_id_;
