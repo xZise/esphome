@@ -313,11 +313,11 @@ void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align
     i += match_length;
   }
 }
-void DisplayBuffer::vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg) {
+void DisplayBuffer::vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg, int x_offset = 0, const int draw_width = 0x7FFFFFFF) {
   char buffer[256];
   int ret = vsnprintf(buffer, sizeof(buffer), format, arg);
   if (ret > 0)
-    this->print(x, y, font, color, align, buffer);
+    this->print(x, y, font, color, align, buffer, x_offset, draw_width);
 }
 
 void DisplayBuffer::image(int x, int y, Image *image, Color color_on, Color color_off) {
@@ -420,6 +420,12 @@ void DisplayBuffer::print(int x, int y, Font *font, TextAlign align, const char 
 }
 void DisplayBuffer::print(int x, int y, Font *font, const char *text) {
   this->print(x, y, font, COLOR_ON, TextAlign::TOP_LEFT, text);
+}
+void DisplayBuffer::printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, int x_offset, const int draw_width, ...) {
+  va_list arg;
+  va_start(arg, format);
+  this->vprintf_(x, y, font, color, align, format, arg);
+  va_end(arg);
 }
 void DisplayBuffer::printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, ...) {
   va_list arg;

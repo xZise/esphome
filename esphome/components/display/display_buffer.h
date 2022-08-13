@@ -230,6 +230,19 @@ class DisplayBuffer {
    * @param format The format to use.
    * @param ... The arguments to use for the text formatting.
    */
+  void printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, int x_offset, const int draw_width, ...)
+      __attribute__((format(printf, 7, 8)));
+
+  /** Evaluate the printf-format `format` and print the result with the anchor point at [x,y] with `font`.
+   *
+   * @param x The x coordinate of the text alignment anchor point.
+   * @param y The y coordinate of the text alignment anchor point.
+   * @param font The font to draw the text with.
+   * @param color The color to draw the text with.
+   * @param align The alignment of the text.
+   * @param format The format to use.
+   * @param ... The arguments to use for the text formatting.
+   */
   void printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, ...)
       __attribute__((format(printf, 7, 8)));
 
@@ -447,7 +460,7 @@ class DisplayBuffer {
   bool is_clipping() const { return !this->clipping_rectangle_.empty(); }
 
  protected:
-  void vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg);
+  void vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg, int x_offset = 0, const int draw_width = 0x7FFFFFFF);
 
   virtual void draw_absolute_pixel_internal(int x, int y, Color color) = 0;
 
