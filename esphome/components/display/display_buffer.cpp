@@ -421,10 +421,10 @@ void DisplayBuffer::print(int x, int y, Font *font, TextAlign align, const char 
 void DisplayBuffer::print(int x, int y, Font *font, const char *text) {
   this->print(x, y, font, COLOR_ON, TextAlign::TOP_LEFT, text);
 }
-void DisplayBuffer::printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, int x_offset, const int draw_width, ...) {
+void DisplayBuffer::printf(int x, int y, Font *font, Color color, TextAlign align, int x_offset, const int draw_width, const char *format, ...) {
   va_list arg;
   va_start(arg, format);
-  this->vprintf_(x, y, font, color, align, format, arg);
+  this->vprintf_(x, y, font, color, align, format, arg, x_offset, draw_width);
   va_end(arg);
 }
 void DisplayBuffer::printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, ...) {

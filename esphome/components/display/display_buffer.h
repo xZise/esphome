@@ -230,7 +230,7 @@ class DisplayBuffer {
    * @param format The format to use.
    * @param ... The arguments to use for the text formatting.
    */
-  void printf(int x, int y, Font *font, Color color, TextAlign align, const char *format, int x_offset, const int draw_width, ...)
+  void printf(int x, int y, Font *font, Color color, TextAlign align, int x_offset, const int draw_width, const char *format, ...)
       __attribute__((format(printf, 7, 8)));
 
   /** Evaluate the printf-format `format` and print the result with the anchor point at [x,y] with `font`.
