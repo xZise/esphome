@@ -231,7 +231,7 @@ class DisplayBuffer {
    * @param ... The arguments to use for the text formatting.
    */
   void printf(int x, int y, Font *font, Color color, TextAlign align, int x_offset, const int draw_width, const char *format, ...)
-      __attribute__((format(printf, 7, 8)));
+      __attribute__((format(printf, 9, 10)));
 
   /** Evaluate the printf-format `format` and print the result with the anchor point at [x,y] with `font`.
    *

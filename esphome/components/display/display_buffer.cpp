@@ -313,7 +313,7 @@ void DisplayBuffer::print(int x, int y, Font *font, Color color, TextAlign align
     i += match_length;
   }
 }
-void DisplayBuffer::vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg, int x_offset = 0, const int draw_width = 0x7FFFFFFF) {
+void DisplayBuffer::vprintf_(int x, int y, Font *font, Color color, TextAlign align, const char *format, va_list arg, int x_offset, const int draw_width) {
   char buffer[256];
   int ret = vsnprintf(buffer, sizeof(buffer), format, arg);
   if (ret > 0)
